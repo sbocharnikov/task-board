@@ -32,4 +32,22 @@ const remove = async (boardId, id) => {
   );
 };
 
-module.exports = { getAll, get, create, update, remove };
+const removeByBoardId = async id => DB_TASKS.filter(t => t.boardId !== id);
+
+const unassignUser = async id => {
+  DB_TASKS.forEach(t => {
+    if (t.userId === id) {
+      t.userId = null;
+    }
+  });
+};
+
+module.exports = {
+  getAll,
+  get,
+  create,
+  update,
+  remove,
+  removeByBoardId,
+  unassignUser
+};

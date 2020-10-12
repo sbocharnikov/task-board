@@ -18,4 +18,16 @@ const update = async (boardId, id, task) => DB_TASKS.update(boardId, id, task);
 
 const remove = async (boardId, id) => DB_TASKS.remove(boardId, id);
 
-module.exports = { getAll, get, create, update, remove };
+const removeByBoardId = async id => DB_TASKS.removeByBoardId(id);
+
+const unassignUser = async id => DB_TASKS.unassignUser(id);
+
+module.exports = {
+  getAll,
+  get,
+  create,
+  update,
+  remove,
+  removeByBoardId,
+  unassignUser
+};
