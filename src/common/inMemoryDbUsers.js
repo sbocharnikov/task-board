@@ -1,8 +1,4 @@
-const User = require('../resources/users/user.model');
-
 const DB_USERS = [];
-
-DB_USERS.push(new User(), new User());
 
 const getAll = async () => DB_USERS.slice(0);
 

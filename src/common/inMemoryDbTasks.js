@@ -1,8 +1,4 @@
-const Task = require('../resources/tasks/task.model');
-
-const DB_TASKS = [];
-
-DB_TASKS.push(new Task(), new Task());
+let DB_TASKS = [];
 
 const getAll = async boardId =>
   DB_TASKS.filter(task => task.boardId === boardId);
@@ -32,7 +28,9 @@ const remove = async (boardId, id) => {
   );
 };
 
-const removeByBoardId = async id => DB_TASKS.filter(t => t.boardId !== id);
+const removeByBoardId = async id => {
+  DB_TASKS = DB_TASKS.filter(t => t.boardId !== id);
+};
 
 const unassignUser = async id => {
   DB_TASKS.forEach(t => {

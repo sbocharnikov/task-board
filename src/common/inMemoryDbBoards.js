@@ -1,8 +1,4 @@
-const Board = require('../resources/boards/board.model');
-
 const DB_BOARDS = [];
-
-DB_BOARDS.push(new Board(), new Board());
 
 const getAll = async () => DB_BOARDS.slice(0);
 
