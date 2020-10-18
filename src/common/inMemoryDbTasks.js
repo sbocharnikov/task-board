@@ -22,10 +22,10 @@ const update = async (boardId, id, task) => {
 };
 
 const remove = async (boardId, id) => {
-  DB_TASKS.splice(
-    DB_TASKS.indexOf(t => t.boardId === boardId && t.id === id),
-    1
-  );
+  const index = DB_TASKS.findIndex(t => t.boardId === boardId && t.id === id);
+  if (index >= 0) {
+    DB_TASKS.splice(index, 1);
+  }
 };
 
 const removeByBoardId = async id => {

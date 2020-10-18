@@ -20,10 +20,10 @@ const update = async (id, user) => {
 };
 
 const remove = async id => {
-  DB_USERS.splice(
-    DB_USERS.indexOf(u => u.id === id),
-    1
-  );
+  const index = DB_USERS.findIndex(u => u.id === id);
+  if (index >= 0) {
+    DB_USERS.splice(index, 1);
+  }
 };
 
 module.exports = { getAll, get, create, update, remove };

@@ -10,7 +10,7 @@ const create = async board => {
 };
 
 const update = async (id, board) => {
-  const index = DB_BOARDS.findIndex(u => u.id === id);
+  const index = DB_BOARDS.findIndex(b => b.id === id);
   if (index === -1) {
     throw new Error("board doesn't exist");
   }
@@ -20,10 +20,10 @@ const update = async (id, board) => {
 };
 
 const remove = async id => {
-  DB_BOARDS.splice(
-    DB_BOARDS.indexOf(b => b.id === id),
-    1
-  );
+  const index = DB_BOARDS.findIndex(b => b.id === id);
+  if (index >= 0) {
+    DB_BOARDS.splice(index, 1);
+  }
 };
 
 module.exports = { getAll, get, create, update, remove };
