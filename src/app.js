@@ -5,12 +5,8 @@ const YAML = require('yamljs');
 const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');
 const taskRouter = require('./resources/tasks/task.router');
-const {
-  INTERNAL_SERVER_ERROR,
-  NOT_FOUND,
-  getStatusText
-} = require('http-status-codes');
 const requestLogger = require('./utils/requestLogger');
+const errorHandler = require('./utils/errorHandler');
 const logger = require('./utils/logger');
 
 const app = express();
@@ -34,16 +30,7 @@ app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 boardRouter.use('/:boardId/tasks', taskRouter);
 
-app.use((err, req, res, next) => {
-  if (err.message.includes('not found')) {
-    res.status(NOT_FOUND).json(err.message);
-  } else {
-    res
-      .status(INTERNAL_SERVER_ERROR)
-      .send(getStatusText(INTERNAL_SERVER_ERROR));
-  }
-  next();
-});
+app.use(errorHandler);
 
 process.on('uncaughtException', err => {
   logger.error(`uncaughtException: ${err.message}`);
