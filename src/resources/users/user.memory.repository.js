@@ -1,21 +1,20 @@
-const DB_USERS = require('../../common/inMemoryDbUsers');
+const User = require('./user.model');
 
-const getAll = async () => DB_USERS.getAll();
+const getAll = async () => User.find({}).lean();
 
 const get = async id => {
-  const user = await DB_USERS.get(id);
-
+  const user = await User.findOne({ _id: id }).lean();
   if (!user) {
     throw new Error(`The user with id ${id} was not found`);
   }
 
-  return user;
+  return { ...user, id };
 };
 
-const create = async user => DB_USERS.create(user);
+const create = async user => User.create(user);
 
-const update = async (id, user) => DB_USERS.update(id, user);
+const update = async (id, user) => User.updateOne({ _id: id }, user).lean();
 
-const remove = async id => DB_USERS.remove(id);
+const remove = async id => User.deleteOne({ _id: id }).lean();
 
 module.exports = { getAll, get, create, update, remove };
