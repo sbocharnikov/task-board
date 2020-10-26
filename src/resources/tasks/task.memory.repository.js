@@ -17,13 +17,18 @@ const create = async task => Task.create(task);
 const update = async (boardId, id, task) =>
   Task.findOneAndUpdate({ _id: id }, task);
 
-const remove = async (boardId, id) =>
-  Task.findOneAndRemove({ _id: id, boardId });
+const remove = async (boardId, id) => {
+  const task = Task.findOneAndRemove({ boardId, _id: id });
+  if (!task) {
+    throw new Error(`The task with id ${id} was not found`);
+  }
+  return task;
+};
 
 const removeByBoardId = async id => Task.deleteMany({ boardId: id });
 
 const unassignUser = async id =>
-  Task.updateMany({ userId: id }, { userId: null });
+  await Task.updateMany({ userId: id }, { userId: null });
 
 module.exports = {
   getAll,
