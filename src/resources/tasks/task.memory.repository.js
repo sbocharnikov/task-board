@@ -1,9 +1,9 @@
-const DB_TASKS = require('../../common/inMemoryDbTasks');
+const Task = require('./task.model');
 
-const getAll = async boardId => DB_TASKS.getAll(boardId);
+const getAll = async boardId => Task.find({ boardId });
 
 const get = async (boardId, id) => {
-  const task = await DB_TASKS.get(boardId, id);
+  const task = await Task.findOne({ boardId, _id: id });
 
   if (!task) {
     throw new Error(`The task with id ${id} was not found`);
@@ -12,15 +12,18 @@ const get = async (boardId, id) => {
   return task;
 };
 
-const create = async task => DB_TASKS.create(task);
+const create = async task => Task.create(task);
 
-const update = async (boardId, id, task) => DB_TASKS.update(boardId, id, task);
+const update = async (boardId, id, task) =>
+  Task.findOneAndUpdate({ _id: id }, task);
 
-const remove = async (boardId, id) => DB_TASKS.remove(boardId, id);
+const remove = async (boardId, id) =>
+  Task.findOneAndRemove({ _id: id, boardId });
 
-const removeByBoardId = async id => DB_TASKS.removeByBoardId(id);
+const removeByBoardId = async id => Task.deleteMany({ boardId: id });
 
-const unassignUser = async id => DB_TASKS.unassignUser(id);
+const unassignUser = async id =>
+  Task.updateMany({ userId: id }, { userId: null });
 
 module.exports = {
   getAll,

@@ -1,9 +1,9 @@
-const DB_BOARDS = require('../../common/inMemoryDbBoards');
+const Board = require('./board.model');
 
-const getAll = async () => DB_BOARDS.getAll();
+const getAll = async () => Board.find({});
 
 const get = async id => {
-  const board = await DB_BOARDS.get(id);
+  const board = await Board.findOne({ _id: id });
 
   if (!board) {
     throw new Error(`The board with id ${id} was not found`);
@@ -12,10 +12,10 @@ const get = async id => {
   return board;
 };
 
-const create = async board => DB_BOARDS.create(board);
+const create = async board => Board.create(board);
 
-const update = async (id, board) => DB_BOARDS.update(id, board);
+const update = async (id, board) => Board.findOneAndUpdate({ _id: id }, board);
 
-const remove = async id => DB_BOARDS.remove(id);
+const remove = async id => Board.deleteOne({ _id: id });
 
 module.exports = { getAll, get, create, update, remove };

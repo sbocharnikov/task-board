@@ -15,6 +15,6 @@ const create = async user => User.create(user);
 
 const update = async (id, user) => User.updateOne({ _id: id }, user).lean();
 
-const remove = async id => User.deleteOne({ _id: id }).lean();
+const remove = async id => User.remove({ _id: id });
 
 module.exports = { getAll, get, create, update, remove };
