@@ -9,13 +9,7 @@ const boardSchema = new mongoose.Schema(
     },
     title: String,
     columns: {
-      type: [
-        {
-          _id: { type: String, default: uuid },
-          title: String,
-          order: Number
-        }
-      ],
+      type: Array,
       default: []
     }
   },

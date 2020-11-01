@@ -9,8 +9,9 @@ const create = user => usersRepo.create(user);
 
 const update = (id, user) => usersRepo.update(id, user);
 
-const remove = id => {
-  tasksRepo.unassignUser(id).then(() => usersRepo.remove(id));
+const remove = async id => {
+  await usersRepo.remove(id);
+  await tasksRepo.unassignUser(id);
 };
 
 module.exports = { getAll, get, create, update, remove };

@@ -15,10 +15,10 @@ const get = async (boardId, id) => {
 const create = async task => Task.create(task);
 
 const update = async (boardId, id, task) =>
-  Task.findOneAndUpdate({ _id: id }, task);
+  Task.updateOne({ _id: id, boardId }, task);
 
 const remove = async (boardId, id) => {
-  const task = Task.findOneAndRemove({ boardId, _id: id });
+  const task = Task.deleteOne({ boardId, _id: id });
   if (!task) {
     throw new Error(`The task with id ${id} was not found`);
   }
