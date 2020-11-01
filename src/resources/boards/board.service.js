@@ -9,9 +9,7 @@ const create = board => boardsRepo.create(board);
 
 const update = (id, board) => boardsRepo.update(id, board);
 
-const remove = async id => {
-  await boardsRepo.remove(id);
-  await tasksRepo.removeByBoardId(id);
-};
+const remove = id =>
+  boardsRepo.remove(id).then(() => tasksRepo.removeByBoardId(id));
 
 module.exports = { getAll, get, create, update, remove };
