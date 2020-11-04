@@ -2,9 +2,11 @@ const express = require('express');
 const swaggerUI = require('swagger-ui-express');
 const path = require('path');
 const YAML = require('yamljs');
+const auth = require('./utils/auth');
 const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');
 const taskRouter = require('./resources/tasks/task.router');
+const loginRouter = require('./resources/login/login.router');
 const requestLogger = require('./utils/requestLogger');
 const errorHandler = require('./utils/errorHandler');
 const logger = require('./utils/logger');
@@ -27,6 +29,8 @@ app.use('/', (req, res, next) => {
   next();
 });
 
+app.use('/login', loginRouter);
+app.use(auth);
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 boardRouter.use('/:boardId/tasks', taskRouter);
