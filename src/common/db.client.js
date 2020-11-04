@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const usersService = require('../resources/users/user.service');
+const logger = require('../utils/logger');
 
 const connectToDB = cb => {
   const { MONGO_CONNECTION_STRING } = process.env;
@@ -17,7 +18,14 @@ const connectToDB = cb => {
   const db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error:'));
   db.once('open', async () => {
-    console.log('Connected to DB');
+    logger.info('Connected to DB');
+    try {
+      await db.dropCollection('users');
+      await db.dropCollection('tasks');
+      await db.dropCollection('boards');
+    } catch (e) {
+      logger.error('Failed to drop collections');
+    }
     await usersService.create({ login: 'admin', password: 'admin' });
     cb();
   });
